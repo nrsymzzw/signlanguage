@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "2464278770",
+    "project_id": "mslfirebase-60536",
+    "storage_bucket": "mslfirebase-60536.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2464278770:android:5706835753873f79e4c86b",
+        "android_client_info": {
+          "package_name": "com.example.msl"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2464278770-194j0ts8ij4gqhmtmab1fgt6no3itekv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDciUIYAobJScUYEfw-YhNnOUkdKhtrObA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2464278770-194j0ts8ij4gqhmtmab1fgt6no3itekv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
