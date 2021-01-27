@@ -126,31 +126,41 @@ class _AddAlphabetsState extends State<AddAlphabets> {
               ),
               SizedBox(height: 20.0),
               TextFormField(
-                validator: (value) => value.isEmpty ? 'Title is required.': null,
-                onChanged: (value)
+              validator: (value)
+              {
+                if(value.isEmpty)
                 {
+                  return 'Enter title.';
+                }
+                return null;
+              },
+                  onChanged: (value)
+                  {
                   setState(() => title = value);
-                },
-                decoration: InputDecoration(
-                    labelText: 'TITLE',
-                    hintText: 'example: A a',
-                    labelStyle: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.orange))
-                ),
-              ),
-              SizedBox(height: 200.0),
-              Material(
-                //color: Color(0xFFF7B980),
-                color: Colors.black,
+                  },
+                  decoration: InputDecoration(
+                  labelText: 'TITLE',
+                  hintText: 'example: A a',
+                  labelStyle: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orange))
+                  ),
+                  ),
+                  SizedBox(height: 200.0),
+                  Material(
+                  //color: Color(0xFFF7B980),
+                  color: Colors.black,
                 borderRadius: BorderRadius.circular(30.0),
                 child: MaterialButton(
                   onPressed: () {
-                    uploadPic(context);
-                    Navigator.pop(context);
+                    if(_formKey.currentState.validate()) {
+                      setState(() => loading = true);
+                      uploadPic(context);
+                      Navigator.pop(context);
+                    }
                   },
                   minWidth: 350.0,
                   height: 50.0,

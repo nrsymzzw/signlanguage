@@ -25,7 +25,6 @@ class _CreateQuizState extends State<CreateQuiz> {
   createQuiz(){
     quizId = randomAlphaNumeric(16);
     if(_formKey.currentState.validate()){
-
       setState(() {
         isLoading = true;
       });

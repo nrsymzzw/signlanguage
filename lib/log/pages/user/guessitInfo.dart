@@ -1,42 +1,24 @@
-import 'dart:async';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:msl/log/pages/admin/quiz/alphquizsetting.dart';
+import 'package:msl/home.dart';
+import 'package:msl/log/pages/admin/quiz/createquiz.dart';
+import 'package:msl/log/pages/admin/quiz/editQuiz.dart';
 import 'package:msl/log/pages/user/guessitalph_questions.dart';
 import 'package:msl/log/pages/user/guessitnum_questions.dart';
-import 'package:msl/log/pages/user/homeUser.dart';
 
-class AlphQuizHome extends StatefulWidget{
+class AlphQuizHome extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return new AlphQuizHomeState();
-  }
+  _AlphQuizHomeState createState() => _AlphQuizHomeState();
 }
 
-class AlphQuizHomeState extends State<AlphQuizHome>{
-
-  int _counter = 5;
-  Timer _timer;
-
-  void _startTimer() {
-    if (_timer != null) {
-      _timer.cancel();
-    }
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_counter > 0) {
-          _counter--;
-        } else {
-          _timer.cancel();
-        }
-      });
-    });
-  }
-
+class _AlphQuizHomeState extends State<AlphQuizHome> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Play Quiz',
           style: TextStyle(
@@ -54,160 +36,103 @@ class AlphQuizHomeState extends State<AlphQuizHome>{
           padding: EdgeInsets.only(left: 25),
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomeUserScreen()));
+                context, MaterialPageRoute(builder: (context) => HomeScreen()));
           },
         ),
         elevation: 10,
         titleSpacing: 85,
         toolbarHeight: 80.0,
       ),
-
-      body: Column(
-        children: [
-          SizedBox(height: 10),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 25),
-            margin: EdgeInsets.only(bottom: 10),
-            height: 150,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Stack(
-                children: [
-                  Image.network(
-                    "https://th.bing.com/th/id/OIP.aafi0Tyq2VeqAkzQDPXSdAHaEK?pid=Api&rs=1",
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
-                  ),
-                  Container(
-                    color: Colors.black26,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'PART A',
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
+      body: Container(
+        padding: EdgeInsets.only(top: 15),
+        child: Column(
+          children: [
+            StreamBuilder(
+              stream: Firestore.instance.collection("Quizs").snapshots(),
+              builder: (context, snapshot) {
+                return snapshot.data == null
+                    ? Container()
+                    : ListView.builder(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot doc = snapshot.data.documents[index];
+                      return Container(
+                        padding: EdgeInsets.symmetric(horizontal: 25),
+                        margin: EdgeInsets.only(bottom: 10),
+                        height: 150,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Stack(
+                            children: [
+                              Image.network(
+                                doc.data['imgUrl'],
+                                fit: BoxFit.cover,
+                                width: MediaQuery.of(context).size.width,
+                              ),
+                              Container(
+                                color: Colors.black26,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        doc.data['title'],
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        doc.data['desc'],
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      SizedBox(height: 15),
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            IconButton(
+                                                icon: Icon(Icons.videogame_asset_outlined),
+                                                color: Colors.transparent,
+                                                iconSize: 35.0,
+                                                padding: EdgeInsets.only(left: 115),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .push(MaterialPageRoute(builder: (context) => AlphQuiz1()));
+                                                }
+                                            ),
+                                            IconButton(
+                                                icon: Icon(Icons.videogame_asset_outlined),
+                                                color: Colors.transparent,
+                                                iconSize: 35.0,
+                                                padding: EdgeInsets.only(left: 35),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .push(MaterialPageRoute(builder: (context) => NumQuiz1()));
+                                                }
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
-                          SizedBox(height: 8),
-                          Text(
-                            "Let's test your alphabets. Ready?",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(height: 15),
-                          IconButton(
-                              icon: Icon(Icons.videogame_asset_outlined),
-                              color: Colors.white,
-                              iconSize: 40.0,
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlphQuiz1()));
-                              }
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 25),
-            margin: EdgeInsets.only(bottom: 10),
-            height: 150,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Stack(
-                children: [
-                  Image.network(
-                    "https://i.pinimg.com/originals/58/07/cb/5807cb0b5633bd3eeb974d11813a5b30.jpg",
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
-                  ),
-                  Container(
-                    color: Colors.black26,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'PART B',
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            "How about numbers? Let's go!",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(height: 15),
-                          IconButton(
-                              icon: Icon(Icons.videogame_asset_outlined),
-                              color: Colors.white,
-                              iconSize: 40.0,
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => NumQuiz1()));
-                              }
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-
-      /*body: new Container(
-        margin: const EdgeInsets.all(15.0),
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-             MaterialButton(
-                height: 50.0,
-                color: Colors.green,
-                onPressed: startQuiz,
-                child: Text("PART A : Alphabets",
-                  style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.white
-                  ),)
-            ),
-            SizedBox(height: 20),
-            MaterialButton(
-                height: 50.0,
-                color: Colors.green,
-                onPressed: startQuiz,
-                child: Text("PART B : Numbers",
-                  style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.white
-                  ),)
+                        ),
+                      );
+                    });
+              },
             )
           ],
         ),
-      ), */
-
-
+      ),
     );
-  }
-
-  void startQuiz(){
-    setState(() {
-      Navigator.push(context, new MaterialPageRoute(builder: (context)=> new Quiz1()));
-    });
   }
 }

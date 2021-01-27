@@ -92,6 +92,11 @@ flutter:
     - assets/sleep.jpg
     - assets/read.jpg
     - assets/chores.jpg
+    - assets/rest.jpg
+    - assets/listen.jpg
+    - assets/name.jpg
+    - assets/okay.jpg
+    - assets/thank.jpg
     - assets/plus1.jpg
     - assets/plus10.jpg
     - assets/plus19.jpg

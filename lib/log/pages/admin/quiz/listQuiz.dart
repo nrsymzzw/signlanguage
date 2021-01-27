@@ -5,6 +5,8 @@ import 'package:msl/log/pages/admin/quiz/alphquizsetting.dart';
 import 'package:msl/home.dart';
 import 'package:msl/log/pages/admin/quiz/createquiz.dart';
 import 'package:msl/log/pages/admin/quiz/editQuiz.dart';
+import 'package:msl/log/pages/user/guessitalph_questions.dart';
+import 'package:msl/log/pages/user/guessitnum_questions.dart';
 
 class ListQuiz extends StatefulWidget {
   @override
@@ -106,29 +108,9 @@ class _ListQuizState extends State<ListQuiz> {
                                                 icon: Icon(EvaIcons.editOutline),
                                                 color: Colors.white,
                                                 iconSize: 35.0,
-                                                padding: EdgeInsets.only(left: 115),
+                                                padding: EdgeInsets.only(left: 150),
                                                 onPressed: () {
                                                   Navigator.push(context, MaterialPageRoute(builder: (context) => EditQuiz(doc:doc)));
-                                                }
-                                            ),
-                                            IconButton(
-                                                icon: Icon(Icons.videogame_asset_outlined),
-                                                color: Colors.white,
-                                                iconSize: 35.0,
-                                                padding: EdgeInsets.only(left: 35),
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .push(MaterialPageRoute(builder: (context) => Quiz1()));
-                                                }
-                                            ),
-                                            IconButton(
-                                                icon: Icon(Icons.videogame_asset_outlined),
-                                                color: Colors.white,
-                                                iconSize: 35.0,
-                                                padding: EdgeInsets.only(left: 35),
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .push(MaterialPageRoute(builder: (context) => Quiz1()));
                                                 }
                                             ),
                                           ],

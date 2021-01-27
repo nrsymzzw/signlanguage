@@ -20,6 +20,8 @@ class _AddNumbersState extends State<AddNumbers> {
   Number num;
   File _image;
 
+  bool loading = false;
+
   Future getImage(bool gallery) async {
     // Get image from gallery.
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -126,7 +128,15 @@ class _AddNumbersState extends State<AddNumbers> {
                 ),
                 SizedBox(height: 20.0),
                 TextFormField(
-                  validator: (value) => value.isEmpty ? 'Title is required.': null,
+                  //validator: (value) => value.isEmpty ? 'Title is required.': null,
+                  validator: (value)
+                  {
+                    if(value.isEmpty)
+                    {
+                      return 'Enter title.';
+                    }
+                    return null;
+                  },
                   onChanged: (value)
                   {
                     setState(() => title = value);
@@ -149,8 +159,11 @@ class _AddNumbersState extends State<AddNumbers> {
                   borderRadius: BorderRadius.circular(30.0),
                   child: MaterialButton(
                     onPressed: () {
-                      uploadPic(context);
-                      Navigator.pop(context);
+                      if(_formKey.currentState.validate()) {
+                        setState(() => loading = true);
+                        uploadPic(context);
+                        Navigator.pop(context);
+                      }
                     },
                     minWidth: 350.0,
                     height: 50.0,

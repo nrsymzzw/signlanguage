@@ -9,7 +9,16 @@ var quiz = new AlphQuiz();
 
 class AlphQuiz{
   var images = [
-    "drink", "eat", "sleep", "read","chores"
+    "drink",
+    "eat",
+    "sleep",
+    "read",
+    "chores",
+    "rest",
+    "listen",
+    "name",
+    "okay",
+    "thank"
   ];
 
 
@@ -18,7 +27,12 @@ class AlphQuiz{
     "Salmah want to _________ fast food for dinner.",
     "Nana always _________ late because she is having a hard time to close her eyes peacefully.",
     "Bob likes to _________ books with variety of genres, especially thriller.",
-    "Alia likes to do _________ to keep the house neat and clean."
+    "Alia likes to do _________ to keep the house neat and clean.",
+    "After a long day at work, Ahmad finally get to _________.",
+    "Lily likes to _________ to songs, especially K-POP.",
+    "Choose the correct answer :",
+    "Choose the correct answer :",
+    "Choose the correct answer :"
   ];
 
 
@@ -27,12 +41,26 @@ class AlphQuiz{
     ["sleep", "eat", "dance", "drink"],
     ["eat", "sleep", "shower", "dance"],
     ["eat", "talk", "spit", "read"],
-    ["shower", "sleep", "chores", "drink"]
+    ["shower", "sleep", "chores", "drink"],
+    ["meet", "rest", "talk", "read"],
+    ["listen", "sleep", "dance", "chores"],
+    ["your age", "your eyes", "your name", "your height"],
+    ["you good", "you mad", "you talk", "you okay"],
+    ["welcome", "thank you", "goodbye", "hello"]
   ];
 
 
   var correctAnswers = [
-    "drinking", "eat", "sleep", "read", "chores"
+    "drinking",
+    "eat",
+    "sleep",
+    "read",
+    "chores",
+    "rest",
+    "listen",
+    "your name",
+    "you okay",
+    "thank you"
   ];
 }
 
@@ -48,7 +76,7 @@ class AlphQuiz1State extends State<AlphQuiz1> {
   int _counter = 30;
   Timer _timer;
 
-  void _startTimer() {
+  /*void _startTimer() {
     if (_timer != null) {
       _timer.cancel();
     }
@@ -61,12 +89,29 @@ class AlphQuiz1State extends State<AlphQuiz1> {
         }
       });
     });
+  }*/
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (t) {
+      setState(() {
+        if (_counter < 1) {
+          t.cancel();
+          updateQuestion();
+        } else {
+          _counter = _counter - 1;
+        }
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
-        onWillPop: () async => false,
+        //onWillPop: () async => false,
+        onWillPop: () {
+          _timer.cancel();
+          return Future.value(true);
+        },
         child: Scaffold(
           body: new Container(
             margin: const EdgeInsets.all(10.0),
@@ -144,7 +189,6 @@ class AlphQuiz1State extends State<AlphQuiz1> {
                         }else{
                           debugPrint("Wrong");
                         }
-                        _startTimer();
                         updateQuestion();
                       },
                       child: new Text(quiz.choices[questionNumber][0],
@@ -172,7 +216,6 @@ class AlphQuiz1State extends State<AlphQuiz1> {
                         }else{
                           debugPrint("Wrong");
                         }
-                        _startTimer();
                         updateQuestion();
                       },
                       child: new Text(quiz.choices[questionNumber][1],
@@ -209,7 +252,6 @@ class AlphQuiz1State extends State<AlphQuiz1> {
                         }else{
                           debugPrint("Wrong");
                         }
-                        _startTimer();
                         updateQuestion();
                       },
                       child: new Text(quiz.choices[questionNumber][2],
@@ -237,7 +279,6 @@ class AlphQuiz1State extends State<AlphQuiz1> {
                         }else{
                           debugPrint("Wrong");
                         }
-                        _startTimer();
                         updateQuestion();
                       },
                       child: new Text(quiz.choices[questionNumber][3],
@@ -291,12 +332,29 @@ class AlphQuiz1State extends State<AlphQuiz1> {
     });
   }
 
-  void updateQuestion(){
+  /*void updateQuestion(){
     setState(() {
-      if(questionNumber == quiz.questions.length - 1 || _counter > 0) {
-        Navigator.push(context, new MaterialPageRoute(builder: (context) => new Summary(score: finalScore)));
-      }else{
+      if(questionNumber == quiz.questions.length - 1) {
+          Navigator.push(context, new MaterialPageRoute(
+              builder: (context) => new Summary(score: finalScore)));
+        }else{
         questionNumber++;
+      }
+    });
+  }*/
+
+  void updateQuestion(){
+    //_timer.cancel();
+    setState(() {
+      if(questionNumber < quiz.questions.length - 1) {
+        questionNumber++;
+        _counter = 30;
+
+        _startTimer();
+      }else{
+        _timer.cancel();
+        Navigator.push(context, new MaterialPageRoute(
+            builder: (context) => new Summary(score: finalScore)));
       }
     });
   }

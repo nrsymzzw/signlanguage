@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:msl/log/pages/user/guessitInfo.dart';
 
@@ -61,6 +63,23 @@ class NumQuiz1 extends StatefulWidget{
 }
 
 class NumQuiz1State extends State<NumQuiz1> {
+
+  int _counter = 30;
+  Timer _timer;
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (t) {
+      setState(() {
+        if (_counter < 1) {
+          t.cancel();
+          updateQuestion();
+        } else {
+          _counter = _counter - 1;
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
@@ -82,6 +101,14 @@ class NumQuiz1State extends State<NumQuiz1> {
                       new Text("Question ${questionNumber + 1} of ${quiz.questions.length}",
                         style: new TextStyle(
                             fontSize: 22.0,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold
+                        ),),
+
+                      new Text("$_counter",
+                        style: new TextStyle(
+                            fontSize: 22.0,
+                            color: Colors.red,
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold
                         ),),
@@ -141,6 +168,7 @@ class NumQuiz1State extends State<NumQuiz1> {
                         }else{
                           debugPrint("Wrong");
                         }
+                        _startTimer();
                         updateQuestion();
                       },
                       child: new Text(quiz.choices[questionNumber][0],
@@ -168,6 +196,7 @@ class NumQuiz1State extends State<NumQuiz1> {
                         }else{
                           debugPrint("Wrong");
                         }
+                        _startTimer();
                         updateQuestion();
                       },
                       child: new Text(quiz.choices[questionNumber][1],
@@ -204,6 +233,7 @@ class NumQuiz1State extends State<NumQuiz1> {
                         }else{
                           debugPrint("Wrong");
                         }
+                        _startTimer();
                         updateQuestion();
                       },
                       child: new Text(quiz.choices[questionNumber][2],
@@ -231,6 +261,7 @@ class NumQuiz1State extends State<NumQuiz1> {
                         }else{
                           debugPrint("Wrong");
                         }
+                        _startTimer();
                         updateQuestion();
                       },
                       child: new Text(quiz.choices[questionNumber][3],
@@ -284,13 +315,29 @@ class NumQuiz1State extends State<NumQuiz1> {
     });
   }
 
-  void updateQuestion(){
+  /*void updateQuestion(){
     setState(() {
       if(questionNumber == quiz.questions.length - 1){
         Navigator.push(context, new MaterialPageRoute(builder: (context)=> new Summary(score: finalScore,)));
 
       }else{
         questionNumber++;
+      }
+    });
+  }*/
+
+  void updateQuestion(){
+    _timer.cancel();
+    setState(() {
+      if(questionNumber < quiz.questions.length - 1) {
+        questionNumber++;
+        _counter = 30;
+
+        _startTimer();
+      }else{
+        _timer.cancel();
+        Navigator.push(context, new MaterialPageRoute(
+            builder: (context) => new Summary(score: finalScore)));
       }
     });
   }
