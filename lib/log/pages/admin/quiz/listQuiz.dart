@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:msl/log/pages/admin/quiz/alphquizsetting.dart';
 import 'package:msl/home.dart';
 import 'package:msl/log/pages/admin/quiz/createquiz.dart';
 import 'package:msl/log/pages/admin/quiz/editQuiz.dart';

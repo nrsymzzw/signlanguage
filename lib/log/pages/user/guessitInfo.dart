@@ -7,6 +7,7 @@ import 'package:msl/log/pages/admin/quiz/createquiz.dart';
 import 'package:msl/log/pages/admin/quiz/editQuiz.dart';
 import 'package:msl/log/pages/user/guessitalph_questions.dart';
 import 'package:msl/log/pages/user/guessitnum_questions.dart';
+import 'package:msl/log/pages/user/homeUser.dart';
 
 class AlphQuizHome extends StatefulWidget {
   @override
@@ -36,7 +37,7 @@ class _AlphQuizHomeState extends State<AlphQuizHome> {
           padding: EdgeInsets.only(left: 25),
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                context, MaterialPageRoute(builder: (context) => HomeUserScreen()));
           },
         ),
         elevation: 10,

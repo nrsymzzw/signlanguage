@@ -145,7 +145,7 @@ class _SignupPageState extends State<SignupPage> {
                         Fluttertoast.showToast(
                             msg: 'Sign Up Successfully',
                             backgroundColor: Colors.green,
-                            textColor: Colors.black
+                            textColor: Colors.white
                         );
                       },
                       minWidth: 350.0,
