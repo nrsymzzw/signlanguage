@@ -67,6 +67,88 @@ class NumQuiz1State extends State<NumQuiz1> {
   int _counter = 30;
   Timer _timer;
 
+  void _openWrongDialog(ctx) {
+    showDialog(
+      context: ctx,
+      builder: (_) => AlertDialog(
+        content: Image.asset("assets/wrong.png",
+          height: 160.0,
+          width: 190.0,),
+        actions: [
+          Container(
+              alignment: Alignment.bottomCenter,
+              child: MaterialButton(
+                  minWidth: 250.0,
+                  height: 50.0,
+                  //color: Color(0xFFF7B980),
+                  color: Color(0xFFff5d7d),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  onPressed: ()=> {
+                    Navigator.of(context).pop()
+                  },
+                  child: new Text("TRY AGAIN",
+                    style: new TextStyle(
+                        fontSize: 18.0,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black
+                    ),)
+              )
+          ),
+        ],
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10)
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+  void _openCorrectDialog(ctx) {
+    showDialog(
+      context: ctx,
+      builder: (_) => AlertDialog(
+        content: Image.asset("assets/tick.png",
+          height: 160.0,
+          width: 190.0,),
+        actions: [
+          Container(
+              alignment: Alignment.bottomCenter,
+              child: MaterialButton(
+                  minWidth: 250.0,
+                  height: 50.0,
+                  //color: Color(0xFFF7B980),
+                  color: Color(0xFFcbe558),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  onPressed: ()=> {
+                    finalScore++,
+                    updateQuestion(),
+                    Navigator.of(context).pop()
+                  },
+                  child: new Text("NEXT",
+                    style: new TextStyle(
+                        fontSize: 18.0,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black
+                    ),)
+              )
+          ),
+        ],
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10)
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
+
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (t) {
       setState(() {
@@ -83,7 +165,11 @@ class NumQuiz1State extends State<NumQuiz1> {
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
-        onWillPop: () async => false,
+        //onWillPop: () async => false,
+        onWillPop: () {
+          _timer.cancel();
+          return Future.value(true);
+        },
         child: Scaffold(
           body: new Container(
             margin: const EdgeInsets.all(10.0),
@@ -108,7 +194,7 @@ class NumQuiz1State extends State<NumQuiz1> {
                       new Text("$_counter",
                         style: new TextStyle(
                             fontSize: 22.0,
-                            color: Colors.red,
+                            color: Colors.deepOrangeAccent,
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold
                         ),),
@@ -164,12 +250,11 @@ class NumQuiz1State extends State<NumQuiz1> {
                       onPressed: (){
                         if(quiz.choices[questionNumber][0] == quiz.correctAnswers[questionNumber]){
                           debugPrint("Correct");
-                          finalScore++;
+                          _openCorrectDialog(context);
                         }else{
                           debugPrint("Wrong");
+                          _openWrongDialog(context);
                         }
-                        _startTimer();
-                        updateQuestion();
                       },
                       child: new Text(quiz.choices[questionNumber][0],
                         style: new TextStyle(
@@ -192,12 +277,11 @@ class NumQuiz1State extends State<NumQuiz1> {
 
                         if(quiz.choices[questionNumber][1] == quiz.correctAnswers[questionNumber]){
                           debugPrint("Correct");
-                          finalScore++;
+                          _openCorrectDialog(context);
                         }else{
                           debugPrint("Wrong");
+                          _openWrongDialog(context);
                         }
-                        _startTimer();
-                        updateQuestion();
                       },
                       child: new Text(quiz.choices[questionNumber][1],
                         style: new TextStyle(
@@ -229,12 +313,11 @@ class NumQuiz1State extends State<NumQuiz1> {
 
                         if(quiz.choices[questionNumber][2] == quiz.correctAnswers[questionNumber]){
                           debugPrint("Correct");
-                          finalScore++;
+                          _openCorrectDialog(context);
                         }else{
                           debugPrint("Wrong");
+                          _openWrongDialog(context);
                         }
-                        _startTimer();
-                        updateQuestion();
                       },
                       child: new Text(quiz.choices[questionNumber][2],
                         style: new TextStyle(
@@ -257,12 +340,11 @@ class NumQuiz1State extends State<NumQuiz1> {
 
                         if(quiz.choices[questionNumber][3] == quiz.correctAnswers[questionNumber]){
                           debugPrint("Correct");
-                          finalScore++;
+                          _openCorrectDialog(context);
                         }else{
                           debugPrint("Wrong");
+                          _openWrongDialog(context);
                         }
-                        _startTimer();
-                        updateQuestion();
                       },
                       child: new Text(quiz.choices[questionNumber][3],
                         style: new TextStyle(
@@ -327,7 +409,7 @@ class NumQuiz1State extends State<NumQuiz1> {
   }*/
 
   void updateQuestion(){
-    _timer.cancel();
+    //_timer.cancel();
     setState(() {
       if(questionNumber < quiz.questions.length - 1) {
         questionNumber++;

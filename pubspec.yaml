@@ -86,6 +86,8 @@ flutter:
     - assets/cubes.png
     - assets/notebook.png
     - assets/idea.png
+    - assets/wrong.png
+    - assets/tick.png
     - assets/cat.jpg
     - assets/drink.jpg
     - assets/eat.jpg

@@ -91,6 +91,88 @@ class AlphQuiz1State extends State<AlphQuiz1> {
     });
   }*/
 
+  void _openWrongDialog(ctx) {
+    showDialog(
+        context: ctx,
+        builder: (_) => AlertDialog(
+          content: Image.asset("assets/wrong.png",
+            height: 160.0,
+            width: 190.0,),
+          actions: [
+            Container(
+              alignment: Alignment.bottomCenter,
+              child: MaterialButton(
+                  minWidth: 250.0,
+                  height: 50.0,
+                  //color: Color(0xFFF7B980),
+                  color: Color(0xFFff5d7d),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  onPressed: ()=> {
+                    Navigator.of(context).pop()
+                  },
+                  child: new Text("TRY AGAIN",
+                    style: new TextStyle(
+                        fontSize: 18.0,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black
+                    ),)
+              )
+            ),
+          ],
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10)
+          ),
+        ),
+        barrierDismissible: false,
+    );
+  }
+
+  void _openCorrectDialog(ctx) {
+    showDialog(
+        context: ctx,
+        builder: (_) => AlertDialog(
+          content: Image.asset("assets/tick.png",
+            height: 160.0,
+            width: 190.0,),
+          actions: [
+            Container(
+                alignment: Alignment.bottomCenter,
+                child: MaterialButton(
+                    minWidth: 250.0,
+                    height: 50.0,
+                    //color: Color(0xFFF7B980),
+                    color: Color(0xFFcbe558),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    onPressed: ()=> {
+                      finalScore++,
+                      updateQuestion(),
+                      Navigator.of(context).pop()
+                    },
+                    child: new Text("NEXT",
+                      style: new TextStyle(
+                          fontSize: 18.0,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black
+                      ),)
+                )
+            ),
+          ],
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10)
+          ),
+        ),
+        barrierDismissible: false,
+    );
+  }
+
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (t) {
       setState(() {
@@ -135,7 +217,7 @@ class AlphQuiz1State extends State<AlphQuiz1> {
                       new Text("$_counter",
                         style: new TextStyle(
                             fontSize: 22.0,
-                            color: Colors.red,
+                            color: Colors.deepOrangeAccent,
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold
                         ),),
@@ -185,11 +267,12 @@ class AlphQuiz1State extends State<AlphQuiz1> {
                       onPressed: (){
                         if(quiz.choices[questionNumber][0] == quiz.correctAnswers[questionNumber]){
                           debugPrint("Correct");
-                          finalScore++;
+                          _openCorrectDialog(context);
                         }else{
                           debugPrint("Wrong");
+                          _openWrongDialog(context);
                         }
-                        updateQuestion();
+
                       },
                       child: new Text(quiz.choices[questionNumber][0],
                         style: new TextStyle(
@@ -212,11 +295,12 @@ class AlphQuiz1State extends State<AlphQuiz1> {
 
                         if(quiz.choices[questionNumber][1] == quiz.correctAnswers[questionNumber]){
                           debugPrint("Correct");
-                          finalScore++;
+                          _openCorrectDialog(context);
                         }else{
                           debugPrint("Wrong");
+                          _openWrongDialog(context);
                         }
-                        updateQuestion();
+
                       },
                       child: new Text(quiz.choices[questionNumber][1],
                         style: new TextStyle(
@@ -248,11 +332,12 @@ class AlphQuiz1State extends State<AlphQuiz1> {
 
                         if(quiz.choices[questionNumber][2] == quiz.correctAnswers[questionNumber]){
                           debugPrint("Correct");
-                          finalScore++;
+                          _openCorrectDialog(context);
                         }else{
                           debugPrint("Wrong");
+                          _openWrongDialog(context);
                         }
-                        updateQuestion();
+
                       },
                       child: new Text(quiz.choices[questionNumber][2],
                         style: new TextStyle(
@@ -275,11 +360,11 @@ class AlphQuiz1State extends State<AlphQuiz1> {
 
                         if(quiz.choices[questionNumber][3] == quiz.correctAnswers[questionNumber]){
                           debugPrint("Correct");
-                          finalScore++;
+                          _openCorrectDialog(context);
                         }else{
                           debugPrint("Wrong");
+                          _openWrongDialog(context);
                         }
-                        updateQuestion();
                       },
                       child: new Text(quiz.choices[questionNumber][3],
                         style: new TextStyle(
@@ -429,12 +514,9 @@ class Summary extends StatelessWidget{
                       ),),),
                 ],
               )
-
             ],
           ),
         ),
-
-
       ),
     );
   }

@@ -21,7 +21,7 @@ class _AlphQuizHomeState extends State<AlphQuizHome> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Play Quiz',
+        title: Text('Play Now',
           style: TextStyle(
             color: Colors.black,
             fontSize: 24.0,
