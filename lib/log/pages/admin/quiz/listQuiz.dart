@@ -19,7 +19,7 @@ class _ListQuizState extends State<ListQuiz> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Play Quiz',
+        title: Text('Play Section',
           style: TextStyle(
             color: Colors.black,
             fontSize: 24.0,
